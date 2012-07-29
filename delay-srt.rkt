@@ -1,3 +1,7 @@
+;; Author: Yi Wang (yi.wang.2005@gmail.com)
+;;
+;; This program parses an .SRT subtitle file and increases/decreases delay.
+
 #lang racket
 
 (require racket/cmdline)
@@ -11,7 +15,6 @@
          make-timestamp-change
          change-delay-of-srt-file)
 
-
 ;; Parse a string in the format of "hh:mm:ss:mil" into a timestamp.
 ;; A timestamp value is a list: '(milliseconds, seconds, minutes, hours).
 (define (parse-timestamp string)
@@ -19,7 +22,6 @@
          (parsed (regexp-match (pregexp pattern) string)))
     (cond ((false? parsed) (raise "Failed parsing the delay time."))
           (else (reverse (map string->number (cdr parsed)))))))
-
 
 ;; Write a timestamp into SRT format string.
 (define (format-timestamp s)
@@ -67,13 +69,11 @@
           (else (list (parse-timestamp (list-ref matched 1))
                       (parse-timestamp (list-ref matched 2)))))))
 
-
 ;; Write a time interval into SRT format string.
 (define (format-time-interval interval)
   (format "~a --> ~a"
           (format-timestamp (car interval))
           (format-timestamp (cadr interval))))
-
 
 ;; Given a symbol of 'increase or 'decrease, returns a lambda which
 ;; increase or decrease delay to its timestamp parameter.
@@ -83,7 +83,6 @@
         ((symbol=? change 'decrease)
          (lambda (s) (sub-timestamp s delay)))
         (else (raise "Unknown change keyword."))))
-
 
 ;; Parse an SRT file, change its time interval lines, outputs to port.
 ;; The file MUST be UTF-8 encoded.
@@ -96,12 +95,12 @@
                    (format-time-interval
                     (map change interval)))))))
 
-
 ;; Define command line flags as parameters.
 (define make-delay (make-parameter
                     (make-timestamp-change
                      'increase (parse-timestamp "0:0:0,0"))))
 
+;; Using the racket/cmdline package to parse command line flags.
 (define srt-file-to-delay
   (command-line
    #:program "compiler"
@@ -116,6 +115,7 @@
                         ; return the argument as a filename to compile
    filename))
 
+;; Parse the process the SRT file.
 (call-with-input-file srt-file-to-delay
   (lambda (in)
     (change-delay-of-srt-file in (current-output-port) (make-delay))))

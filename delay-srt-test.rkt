@@ -1,3 +1,6 @@
+;; Author: Yi Wang (yi.wang.2005@gmail.com)
+;;
+
 #lang racket/base
 
 (require rackunit
