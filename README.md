@@ -8,7 +8,7 @@ delay of an SRT subtitle file.
 Motivation
 ----------
 
-I often download .mkv video file together with .srt subtitle files.
+I like to download .mkv video files together with .srt subtitle files.
 However, it is often that the subtitle has an offset to the video.
 Some players have the ability to adjust (increase or decrease) the
 delay of subtitle, but some do not.  So I decided to write this
@@ -36,8 +36,8 @@ In above example, the format of delay is
 You can also decrease the delay by substituting the parameter -i (or
 --increase-delay) to -d (or --decrease-delay).
 
-I practices the unit test framework of Racket in this project.  To run
-the unit test:
+I practiced using the unit test framework of Racket in this project.
+To run the unit test:
 
 ```bash
 racket delay-srt-test.rkt
